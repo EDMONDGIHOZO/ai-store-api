@@ -1,0 +1,25 @@
+# Node.js Dependencies
+node_modules/
+
+# Build Output Directories
+dist/
+
+# OS-Specific Files
+.DS_Store
+
+# Logs and Runtime Data
+logs/
+*.log
+
+yarn-debug.log*
+yarn-error.log*
+
+# Environment Variables
+.env
+.env.*.local
+
+# Editor File
+.idea/
+
+ package-lock.json
+ yarn.lock
