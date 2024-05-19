@@ -15,6 +15,19 @@ class FarmersController {
             res.status(500).json({error: errorMessage})
         }
     }
+
+    async getFarmer (req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const results = await FarmersService.createFarmer(req.body)
+            res.status(201).json(results)
+        } catch (e: unknown) {
+            let errorMessage = 'An error occurred';
+            if (e instanceof Error) {
+                errorMessage = e.message;
+            }
+            res.status(500).json({ error: errorMessage })
+        }
+    }
 }
 
 
