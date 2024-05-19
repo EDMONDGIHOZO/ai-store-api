@@ -19,8 +19,8 @@ const userService = {
             throw new CustomerError(errorManager.INTERNAL_SERVER_ERROR)
         }
     },
-    async loginUser(username: string, password: string): Promise<string> {
-        const user = await UserModel.findOne({ username });
+    async loginUser(phone_number: string, password: string): Promise<string> {
+        const user = await UserModel.findOne({ phone_number });
         if (!user) throw new CustomerError(errorManager.WRONG_CREDENTIALS); // Unauthorized
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) throw new CustomerError(errorManager.WRONG_CREDENTIALS);
@@ -29,3 +29,5 @@ const userService = {
         return token;
     },
 }
+
+export {userService}
