@@ -1,4 +1,4 @@
-import { Farmer } from "../types/farmer";
+import { Farmer, IFarmer } from "../types/farmer";
 import bcrypt from 'bcrypt'
 import { FarmerModel } from "../models/farmers.model";
 import { CustomerError } from "../utils/customerError";
@@ -7,32 +7,14 @@ import { Helpers } from "../helpers/helpers";
 
 
 class FarmersService {
-    async createFarmer(formData: Farmer): Promise<Farmer> {
-        //     check if the same phone number exists.
-        const oldFarmer = await FarmerModel.findOne(
-            {
-                phone_number: formData.phone_number
-            }
-        )
-        if (!oldFarmer) throw new CustomerError(errorManager.FARMER_EXISTS)
-
-        // proceed adding new farmer.
-        // hash the password
-        const newFarmer = new FarmerModel({
-            ...formData
-        })
-        const saved = await newFarmer.save()
-        return saved.toJSON()
+    async createFarmerProfile(user_id: string, land_size: number): Promise<IFarmer> {
+        const farmer = new FarmerModel({ user: user_id, land_size });
+        const saved_farmer = await farmer.save();
+        return saved_farmer.toObject()
     }
-    async getFarmeryById(id: string): Promise<Farmer> {
-        //     check if the same phone number exists.
-        const found = await FarmerModel.findOne(
-            {
-                _id: Helpers.toMongooseObjectId(id)
-            }
-        )
-        if (!found) throw new CustomerError(errorManager.FARMER_NOT_FOUND)
-        return found.toJSON()
+
+    async getFarmerProfile(userId: string): Promise<IFarmer | null> {
+        return await FarmerModel.findOne({ user: userId });
     }
 }
 
