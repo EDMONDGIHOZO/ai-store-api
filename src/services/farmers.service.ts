@@ -7,14 +7,18 @@ import { Helpers } from "../helpers/helpers";
 
 
 class FarmersService {
-    async createFarmerProfile(user_id: string, land_size: number): Promise<IFarmer> {
+    async createFarmerProfile(land_size: number, user_id?: string): Promise<IFarmer> {
         const farmer = new FarmerModel({ user: user_id, land_size });
         const saved_farmer = await farmer.save();
         return saved_farmer.toObject()
     }
 
-    async getFarmerProfile(userId: string): Promise<IFarmer | null> {
-        return await FarmerModel.findOne({ user: userId });
+    async getFarmerProfile(userId?: string): Promise<IFarmer | null> {
+       if(userId) {
+           return await FarmerModel.findOne({ user: userId });
+       } else {
+        return null
+       }
     }
 }
 
